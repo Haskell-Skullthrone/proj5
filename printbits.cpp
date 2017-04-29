@@ -1,13 +1,6 @@
 #include<iostream>
 using namespace std;
-void printBits (unsigned char s) {
-	//print the bit pattern
-	for (int i=0; i < 8; i++)
-		if (s & (1 << (7-i)))
-			cout << 1;
-		else
-			cout << 0;
-}
+
 int main () {
 	unsigned char l = 0x01 << 1; // set l to be equal to 2;
 	cout << "Printing the bits before changing: ";
