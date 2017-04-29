@@ -12,4 +12,5 @@ public:
 	void addEdge (int u, int v);
 	bool isAnEdge (int u, int v);
 	//other that you want and will be useful
+	void BitMatrixGraph::printBits();
 };
