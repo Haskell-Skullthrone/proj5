@@ -8,19 +8,21 @@ BitMatrixGraph::BitMatrixGraph(){
 }
 BitMatrixGraph::BitMatrixGraph(int numNodes){
 	n=numNodes;
-	unsigned char bitAdjacencyMatrix[numNodes][numNodes/8+1];
-	for(int i = 0; i < numNodes; i++){
-		for(int j = 0; j < numNodes/8+1; j++){
-			bitAdjacencyMatrix[i][j]=0x00<<8;
+	bitAdjacencyMatrix = new unsigned char*[n];
+	for(int i = 0; i < numNodes/8+1; i++){
+		bitAdjacencyMatrix[i] = new unsigned char[n / 8 + 1];
+		for (int j = 0; j < numNodes; j++) {
+			bitAdjacencyMatrix[i][j] = 0x00 << 8;
 		}
 	}
 }
 BitMatrixGraph::BitMatrixGraph(const BitMatrixGraph& otherGraph){
 	n=otherGraph.n;
-	unsigned char bitAdjacencyMatrix[n][n/8+1];
-	for(int i = 0; i < n;++i){
-		for(int j = 0; j < n/8+1;++j){
-			bitAdjacencyMatrix[i][j]=otherGraph.bitAdjacencyMatrix[i][j];
+	bitAdjacencyMatrix = new unsigned char*[n];
+	for (int i = 0; i < n / 8 + 1; i++) {
+		bitAdjacencyMatrix[i] = new unsigned char[n / 8 + 1];
+		for (int j = 0; j < n; j++) {
+			bitAdjacencyMatrix[i][j] = otherGraph.bitAdjacencyMatrix[i][j];
 		}
 	}
 }
@@ -30,7 +32,7 @@ void BitMatrixGraph::addEdge(int u, int v){
 	bitAdjacencyMatrix[u][v/8]|=
 		v%8==0?0x80:
 		v%8==1?0x01:
-		v&8==2?0x02:
+		v%8==2?0x02:
 		v%8==3?0x04:
 		v%8==4?0x08:
 		v%8==5?0x10:
@@ -42,7 +44,7 @@ bool BitMatrixGraph::isAnEdge(int u, int v){
 	return 0x00!=bitAdjacencyMatrix[u][v/8]&&
 		v%8==0?0x80:
 		v%8==1?0x01:
-		v&8==2?0x02:
+		v%8==2?0x02:
 		v%8==3?0x04:
 		v%8==4?0x08:
 		v%8==5?0x10:
@@ -69,5 +71,6 @@ std::ostream& operator<<(std::ostream&s, BitMatrixGraph&g){
 		}
 		s<<'\n';
 	}
+	return s;
 }
 
